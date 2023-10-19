@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rule-Based Chatbot</title>
+    <style>
+      .chat-window {
+        width: 400px;
+        height: 300px;
+        border: 4px solid #ccc;
+        overflow: auto;
+        padding: 25px;
+      }
+    </style>
+    <script>
+      function respondToUserInput(userInput, userName) {
+        var rules = {
+          hello: "Hello " + userName + "! How can I assist you?",
+          howareyou: "I am doing well, thank you " + userName + "!",
+          bye: "Goodbye " + userName + "! Have a great day!",
+          thankyou: "You're welcome " + userName + "!",
+          default: "I'm sorry " + userName + ", I don't understand. Can you please rephrase your question?",
+        };
+        var usermsg = userInput.toLowerCase();
+        if (usermsg.includes("hello")) {
+          return rules.hello;
+        } else if (usermsg.includes("how are you")) {
+          return rules.howareyou;
+        } else if (usermsg.includes("bye")) {
+          return rules.bye;
+        } else if (usermsg.includes("thank you")) {
+          return rules.thankyou;
+        } else {
+          return rules.default;
+        }
+      }
+      function sendMessage() {
+        var userName = document.getElementById("user-name").value.trim();
+        var usermsg = document.getElementById("user-input").value.trim();
+        var botResponse = respondToUserInput(usermsg, userName);
+        var chatHistory = document.getElementById("chat-history");
+        chatHistory.innerHTML += "<strong>You (" + userName + "):</strong> " + usermsg + "<br/>";
+        chatHistory.innerHTML += "<strong>Bot:</strong> " + botResponse + "<br/>";
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+        document.getElementById("user-input").value = "";
+        document.getElementById("user-input").focus();
+      }
+    </script>
+  </head>
+  <body bgcolor="skyblue">
+    <h1 style="color: black; height: 75px; width: 350px;">Rule-Based Chatbot</h1>
+    <label for="user-name" >Enter your name:</label>
+    <input style="width: 220px;" type="text" id="user-name"><br>
+    <div class="chat-window" id="chat-history"></div>
+    <select id="user-input" style="color:black; width: 70px; height: 28px;">
+      <option value="hello">Hello</option>
+      <option value="how are you">How are you?</option>
+      <option value="bye">Bye</option>
+      <option value="thank you">Thank you</option>
+    </select>
+    <button onclick="sendMessage()">Send</button>
+  </body>
+</html>
