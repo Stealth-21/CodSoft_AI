@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Recommendation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+            transition: background-color 0.5s, color 0.5s;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.5s;
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            background-color: #555;
+            color: #fff;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #0074D9;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        h3 {
+            margin-top: 20px;
+        }
+        p {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Movie Recommendation System</h1>
+        <p>Customize your movie preferences and get personalized recommendations.</p>
+        <form>
+            <label for="action">Action:</label>
+            <select id="action" name="action">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+            <label for="drama">Drama:</label>
+            <select id="drama" name="drama">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+            <label for="comedy">Comedy:</label>
+            <select id="comedy" name="comedy">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+            <label for="scifi">Science Fiction:</label>
+            <select id="scifi" name="scifi">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+            <label for="horror">Horror:</label>
+            <select id="horror" name="horror">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+            <button type="button" id="recommendButton">Get Movie Recommendations</button>
+        </form>
+        <div id="recommendationsDiv"></div>
+    </div>
+    <script>
+        const movies = [
+            "Back to the Future (1985), 0, 0, 1, 1, 0",
+            "Inception (2010), 1, 1, 0, 1, 0",
+            "The Matrix (1999), 1, 0, 0, 1, 0",
+            "Jurassic Park (1993), 1, 0, 0, 1, 0",
+            "Pirates of the Caribbean: The Curse of the Black Pearl (2003), 1, 0, 1, 0, 0",
+            "Eternal Sunshine of the Spotless Mind (2004), 0, 1, 0, 1, 0",
+            "Die Hard (1988), 1, 1, 1, 0, 0",
+            "The Godfather (1972), 0, 1, 0, 0, 0",
+            "The Shawshank Redemption (1994), 0, 1, 0, 0, 0",
+            "The Dark Knight (2008), 1, 0, 0, 0, 0",
+            "Forrest Gump (1994), 0, 1, 0, 0, 0",
+            "The Lord of the Rings: The Return of the King (2003), 1, 0, 0, 1, 0",
+            "Fight Club (1999), 1, 0, 0, 0, 0",
+            "Pulp Fiction (1994), 1, 0, 0, 0, 0",
+            "Gladiator (2000), 1, 0, 0, 0, 0",
+            "The Shawshank Redemption (1994), 0, 1, 0, 0, 0",
+            "The Dark Knight (2008), 1, 0, 0, 0, 0",
+            "The Lord of the Rings: The Return of the King (2003), 1, 0, 0, 1, 0",
+            "Schindler's List (1993), 0, 1, 0, 0, 0",
+            "The Godfather: Part II (1974), 0, 1, 0, 0, 0",
+            "The Lord of the Rings: The Fellowship of the Ring (2001), 1, 0, 0, 1, 0",
+            "The Lord of the Rings: The Two Towers (2002), 1, 0, 0, 1, 0",
+        ];
+        document.getElementById("recommendButton").addEventListener("click", function () {
+            const action = document.getElementById("action").value;
+            const drama = document.getElementById("drama").value;
+            const comedy = document.getElementById("comedy").value;
+            const scifi = document.getElementById("scifi").value;
+            const horror = document.getElementById("horror").value;
+            const userPreferences = {
+                "Action": action,
+                "Drama": drama,
+                "Comedy": comedy,
+                "Science Fiction": scifi,
+                "Horror": horror
+            };
+            const recommendationsDiv = document.getElementById("recommendationsDiv");
+            const movieRecommendations = getMovieRecommendations(userPreferences);
+            recommendationsDiv.innerHTML = "<h3>Top 2 Movie Recommendations:</h3>";
+            if (movieRecommendations.length > 0) {
+                for (let i = 0; i < 2; i++) {
+                    const movieTitle = movieRecommendations[i].split(',')[0];
+                    recommendationsDiv.innerHTML += `<p>${movieTitle}</p>`;
+                }
+            } else {
+                recommendationsDiv.innerHTML += "<p>No recommendations available based on your preferences.</p>";
+            }
+        });
+        function getMovieRecommendations(userPreferences) {
+            return movies.filter(movie => {
+                const [title, ...prefs] = movie.split(", ");
+                return Object.keys(userPreferences).every((key, index) => {
+                    return userPreferences[key] === "1" || prefs[index].trim() === "0";
+                });
+            });
+        }
+    </script>
+</body>
+</html>
