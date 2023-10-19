@@ -5,7 +5,7 @@ class TicTacToe:
     def __init__(self, ai_difficulty, play_again_button):
         self.window = tk.Tk()
         self.window.title("Tic-Tac-Toe")
-        self.buttons = [[None for _ in range(3)] for _ in range(3)]
+        self.buttons = [[None for i in range(3)] for j in range(3)]
         self.current_player = "X"
         self.ai_difficulty = ai_difficulty
         self.play_again_button = play_again_button
